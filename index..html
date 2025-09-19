@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daouda KA - Data Analyst</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.6) 0%, rgba(52, 152, 219, 0.6) 100%),
+                        url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80') center/cover;
+            border-radius: 15px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.3) 0%, rgba(52, 152, 219, 0.2) 100%);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 0 auto 25px auto;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Placeholder pour la photo si aucune image n'est fournie */
+        .profile-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(10px);
+            font-size: 3em;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-placeholder:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .title {
+            color: #f8f9fa;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .description {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.2em;
+            max-width: 850px;
+            margin: 0 auto 30px auto;
+            line-height: 1.8;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info div:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #3498db;
+            display: block;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            color: #5a6c7d;
+            font-size: 1em;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            margin-bottom: 35px;
+            padding: 45px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.4em;
+            margin-bottom: 35px;
+            text-align: center;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 2px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+            margin-top: 35px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f8fbff 0%, #e3f2fd 100%);
+            padding: 35px;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+            border-radius: 50%;
+            transform: translate(40px, -40px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-left-color: #2980b9;
+        }
+
+        .project-card h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+        }
+
+        .project-card p {
+            color: #5a6c7d;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tech-tag {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .experience-item {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            margin-bottom: 30px;
+            padding: 35px;
+            border-radius: 15px;
+            border-left: 5px solid #f39c12;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .experience-item:hover {
+            transform: translateX(10px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            border-left-color: #e67e22;
+        }
+
+        .experience-item h3 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .experience-item .period {
+            color: #e67e22;
+            font-weight: 600;
+            margin-bottom: 18px;
+            font-size: 1.1em;
+        }
+
+        .experience-item p {
+            color: #5a6c7d;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .experience-item ul {
+            margin-top: 20px;
+            padding-left: 25px;
+        }
+
+        .experience-item li {
+            color: #5a6c7d;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-size: 1.05em;
+        }
+
+        .experience-item li strong {
+            color: #2c3e50;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: transform 0.4s ease;
+            border-left: 5px solid #9b59b6;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .skill-category:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .skill-category h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.95em;
+            color: #2c3e50;
+            border: 2px solid rgba(155, 89, 182, 0.2);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-item:hover {
+            background: #9b59b6;
+            color: white;
+            border-color: #8e44ad;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .formation-item {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            margin-bottom: 25px;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #27ae60;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .formation-item:hover {
+            transform: translateX(8px) scale(1.01);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .formation-item h3 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .formation-item .year {
+            color: #27ae60;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .formation-item p {
+            color: #5a6c7d;
+            line-height: 1.7;
+            font-size: 1.05em;
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .certification-item {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #f39c12;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .certification-item:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .certification-item h4 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .certification-item p {
+            color: #5a6c7d;
+            font-size: 1em;
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .language-item {
+            background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid #8b5cf6;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .language-item:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .language-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .language-item .level {
+            color: #5a6c7d;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8em;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 30px 25px;
+            }
+
+            .summary-stats {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .stat-number {
+                font-size: 2em;
+            }
+        }
+
+        .highlight {
+            color: #f39c12;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <!-- Photo de profil - Remplacez l'URL par votre photo ou utilisez le placeholder -->
+                <img src="DK.jpg" alt="Daouda KA" class="profile-photo"> -->
+                <!-- <div class="profile-placeholder">👨‍💼</div> -->
+                
+                <h1>Daouda KA</h1>
+                <div class="title">Data Analyst & Business Intelligence Specialist</div>
+                <div class="description">
+                    Expert en <span class="highlight">science des données</span> et intelligence artificielle, spécialisé dans la transformation 
+                    de données complexes en insights stratégiques. Maîtrise complète de la chaîne analytique : du scraping et NLP 
+                    jusqu'aux <span class="highlight">solutions BI avancées</span> et visualisations interactives.
+                </div>
+                <div class="contact-info">
+                    <div>📱 +221 774 180 104</div>
+                    <div>🏛️ Stagiaire chez ByFilling</div>
+                    <div>🌍 Dakar, Sénégal</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Résumé Statistique -->
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-number">6+</span>
+                <span class="stat-label">Projets Data Science Réalisés</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Expériences Professionnelles</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Technologies Maîtrisées</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5</span>
+                <span class="stat-label">Certifications Obtenues</span>
+            </div>
+        </div>
+
+        <!-- Expérience Professionnelle -->
+        <section class="section">
+            <h2>Expérience Professionnelle</h2>
+            
+            <div class="experience-item">
+                <h3>Data Analyst Stagiaire - ByFilling</h3>
+                <div class="period">Mars 2025 - Présent</div>
+                <p><strong>Spécialisation en traitement de données et intelligence artificielle appliquée</strong></p>
+                <ul>
+                    <li><strong>Nettoyage et analyse de séries temporelles complexes</strong> - Développement d'algorithmes de prétraitement pour optimiser la qualité des données</li>
+                    <li><strong>Détection de sentiments avec NLP avancé</strong> - Implémentation de modèles de traitement du langage naturel pour l'analyse automatisée des retours clients</li>
+                    <li><strong>Conception et intégration de chatbot intelligent</strong> - Création d'un système conversationnel IA pour l'automatisation du support client</li>
+                    <li><strong>Développement de dashboards analytiques</strong> - Création de visualisations interactives pour le pilotage des KPIs métier</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <h3>Développeur Web - Jant Tech</h3>
+                <div class="period">Février - Mars 2025</div>
+                <p>Développement d'applications web modernes avec intégration de fonctionnalités analytiques avancées. 
+                Collaboration en méthodologie Agile pour la création de solutions techniques performantes et évolutives, 
+                avec focus sur l'optimisation UX et l'intégration de composants data-driven.</p>
+            </div>
+        </section>
+
+        <!-- Projets Techniques -->
+        <section class="section">
+            <h2>Projets Techniques Réalisés</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>🏆 Plateforme d'Analyse UEFA Complète</h3>
+                    <p>Développement d'une solution end-to-end d'extraction et d'analyse des données UEFA avec scraping automatisé, traitement statistique avancé des performances d'équipes européennes, et interface interactive Streamlit pour la visualisation des insights sportifs.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">BeautifulSoup</span>
+                        <span class="tech-tag">Streamlit</span>
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Data Visualization</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>📧 Système de Classification Intelligente</h3>
+                    <p>Architecture NLP complète pour la classification automatique d'emails avec analyse de sentiments multicritères. Implémentation d'algorithmes de machine learning pour la catégorisation intelligente et l'extraction d'insights comportementaux à partir de contenus textuels.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Scikit-learn</span>
+                        <span class="tech-tag">NLTK</span>
+                        <span class="tech-tag">Classification</span>
+                        <span class="tech-tag">Sentiment Analysis</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>🏥 Prédiction Médicale Multi-Modèles</h3>
+                    <p>Développement et benchmarking d'algorithmes de classification pour le diagnostic médical automatisé. Optimisation par validation croisée, tuning d'hyperparamètres et évaluation comparative des performances pour garantir la fiabilité clinique des prédictions.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Machine Learning</span>
+                        <span class="tech-tag">Classification</span>
+                        <span class="tech-tag">Cross-validation</span>
+                        <span class="tech-tag">Hyperparameter Tuning</span>
+                        <span class="tech-tag">Streamlit</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>📊 Architecture BI Enterprise</h3>
+                    <p>Conception et implémentation d'une solution Business Intelligence complète avec pipeline ETL robuste (SSIS), modélisation multidimensionnelle OLAP (SSAS), et dashboards exécutifs Power BI. Traitement de datasets Kaggle pour analyses prédictives et reporting stratégique.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">SSIS</span>
+                        <span class="tech-tag">SSAS</span>
+                        <span class="tech-tag">Power BI</span>
+                        <span class="tech-tag">SQL Server</span>
+                        <span class="tech-tag">ETL Architecture</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>🤖 Chatbot Conversationnel Avancé</h3>
+                    <p>Développement d'un assistant virtuel intelligent utilisant le traitement du langage naturel pour l'automatisation des interactions clients. Intégration d'algorithmes de compréhension contextuelle pour améliorer l'expérience utilisateur et optimiser les processus de support.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Chatbot AI</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">API Integration</span>
+                        <span class="tech-tag">Conversational AI</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <h3>🎓 Recherche : Data Mesh & ELT Moderne</h3>
+                    <p>Mémoire de Master approfondi sur les architectures de données nouvelle génération. Analyse comparative des paradigmes Data Mesh et patterns ELT pour la gouvernance décentralisée et la scalabilité des écosystèmes data d'entreprise.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Data Architecture</span>
+                        <span class="tech-tag">Data Mesh</span>
+                        <span class="tech-tag">ELT Patterns</span>
+                        <span class="tech-tag">Research</span>
+                        <span class="tech-tag">Data Governance</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compétences Techniques -->
+        <section class="section">
+            <h2>Compétences Techniques Expertes</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>🧠 Data Science & Intelligence Artificielle</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Machine Learning</span>
+                        <span class="skill-item">Deep Learning</span>
+                        <span class="skill-item">NLP Avancé</span>
+                        <span class="skill-item">Classification</span>
+                        <span class="skill-item">Régression</span>
+                        <span class="skill-item">Clustering</span>
+                        <span class="skill-item">Pandas</span>
+                        <span class="skill-item">Scikit-learn</span>
+                        <span class="skill-item">Seaborn</span>
+                        <span class="skill-item">NLTK</span>
+                        <span class="skill-item">Surprise</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>📊 Business Intelligence & Analytics</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Power BI Expert</span>
+                        <span class="skill-item">SSIS</span>
+                        <span class="skill-item">SSAS</span>
+                        <span class="skill-item">ETL/ELT</span>
+                        <span class="skill-item">Cubes OLAP</span>
+                        <span class="skill-item">Looker Studio</span>
+                        <span class="skill-item">Streamlit</span>
+                        <span class="skill-item">Data Warehousing</span>
+                        <span class="skill-item">KPI Design</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>💻 Développement & Technologies</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Python Expert</span>
+                        <span class="skill-item">R Statistical</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">Java</span>
+                        <span class="skill-item">React</span>
+                        <span class="skill-item">Angular</span>
+                        <span class="skill-item">Flutter</span>
+                        <span class="skill-item">HTML/CSS</span>
+                        <span class="skill-item">Git/GitHub</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>🗄️ Bases de Données & Big Data</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">SQL Server</span>
+                        <span class="skill-item">MySQL</span>
+                        <span class="skill-item">PostgreSQL</span>
+                        <span class="skill-item">MongoDB</span>
+                        <span class="skill-item">CouchDB</span>
+                        <span class="skill-item">SQL Avancé</span>
+                        <span class="skill-item">NoSQL</span>
+                        <span class="skill-item">Data Modeling</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Formation -->
+        <section class="section">
+            <h2>Formation Académique</h2>
+            
+            <div class="formation-item">
+                <h3>Master 2 Professionnel - Business Intelligence</h3>
+                <div class="year">Février 2025 - Présent</div>
+                <p><strong>Université Cheikh Anta Diop (UCAD) - Faculté des Sciences et Techniques</strong><br>
+                Spécialisation approfondie en architecture BI, Data Warehouse, Machine Learning avancé, et technologies 
+                de données modernes. Focus sur les solutions analytiques entreprise et la gouvernance des données.</p>
+            </div>
+
+            <div class="formation-item">
+                <h3>Licence Professionnelle en Informatique</h3>
+                <div class="year">2022 - 2023</div>
+                <p><strong>Université Cheikh Anta Diop (UCAD) - Faculté des Sciences et Techniques</strong><br>
+                Formation complète en développement logiciel, architecture des systèmes d'information, 
+                bases de données relationnelles et programmation orientée objet.</p>
+            </div>
+
+            <div class="formation-item">
+                <h3>Baccalauréat Série Scientifique S2</h3>
+                <div class="year">2020</div>
+                <p><strong>Lycée de Mboro</strong><br>
+                Spécialisation mathématiques, sciences physiques et chimie. 
+                Fondations solides en sciences exactes et méthodes analytiques.</p>
+            </div>
+        </section>
+
+        <!-- Certifications -->
+        <section class="section">
+            <h2>Certifications & Formations Professionnelles</h2>
+            <div class="certifications-grid">
+                <div class="certification-item">
+                    <h4>🎯 Data Analysis Expert</h4>
+                    <p>Force N - Certification en analyse avancée de données et statistiques appliquées</p>
+                </div>
+                <div class="certification-item">
+                    <h4>💼 Communication Professionnelle</h4>
+                    <p>Force N - Compétences interpersonnelles et présentation de résultats analytiques</p>
+                </div>
+                <div class="certification-item">
+                    <h4>🚀 Front-end Development</h4>
+                    <p>Force N - Développement web moderne et interfaces utilisateur</p>
+                </div>
+                <div class="certification-item">
+                    <h4>📈 Inbound Marketing</h4>
+                    <p>HubSpot - Marketing digital et analyse de performance</p>
+                </div>
+                <div class="certification-item">
+                    <h4>🎤 Prise de Parole en Public</h4>
+                    <p>Communication efficace et présentation de projets techniques</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Langues -->
+        <section class="section">
+            <h2>Compétences Linguistiques</h2>
+            <div class="languages-grid">
+                <div class="language-item">
+                    <h4>🇫🇷 Français</h4>
+                    <div class="level">Courant - Parlé, Lu, Écrit</div>
+                </div>
+                <div class="language-item">
+                    <h4>🇬🇧 Anglais</h4>
+                    <div class="level">Courant - Parlé, Lu, Écrit</div>
+                </div>
+                <div class="language-item">
+                    <h4>🗣️ Wolof</h4>
+                    <div class="level">Langue maternelle</div>
+                </div>
+                <div class="language-item">
+                    <h4>🗣️ Peul</h4>
+                    <div class="level">Parlé couramment</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Atouts Professionnels -->
+        <section class="section">
+            <h2>Atouts & Valeur Ajoutée</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>🎯 Expertise Technique</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Maîtrise complète de la chaîne Data</span>
+                        <span class="skill-item">Architecture BI end-to-end</span>
+                        <span class="skill-item">Optimisation des performances</span>
+                        <span class="skill-item">Innovation technologique</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>💡 Soft Skills</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Adaptabilité rapide</span>
+                        <span class="skill-item">Résolution de problèmes</span>
+                        <span class="skill-item">Travail en équipe</span>
+                        <span class="skill-item">Communication technique</span>
+                        <span class="skill-item">Apprentissage continu</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>🚀 Vision Stratégique</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Transformation digitale</span>
+                        <span class="skill-item">Data-driven decisions</span>
+                        <span class="skill-item">ROI analytique</span>
+                        <span class="skill-item">Innovation disruptive</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>🌟 Capacité d'Adaptation</h3>
+                    <div class="skill-list">
+                        <span class="skill-item">Technologies émergentes</span>
+                        <span class="skill-item">Contextes multiculturels</span>
+                        <span class="skill-item">Projets cross-fonctionnels</span>
+                        <span class="skill-item">Environnements agiles</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer d'appel à l'action -->
+        <section class="section" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white;">Prêt à Transformer Vos Données en Valeur</h2>
+            <p style="font-size: 1.3em; color: rgba(255,255,255,0.9); max-width: 800px; margin: 0 auto 30px auto; line-height: 1.7;">
+                Avec une expertise technique solide et une approche innovante, je transforme les défis data 
+                en opportunités business. Mon adaptabilité et ma passion pour l'excellence technique font 
+                de moi le partenaire idéal pour vos projets d'intelligence artificielle et d'analytics.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 35px;">
+                <div style="background: rgba(255,255,255,0.15); padding: 20px 30px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 1.5em; font-weight: bold;">📱 Contact Direct</div>
+                    <div style="color: rgba(255,255,255,0.9);">+221 774 180 104</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 20px 30px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 1.5em; font-weight: bold;">🎯 Disponibilité</div>
+                    <div style="color: rgba(255,255,255,0.9);">Immédiate pour projets</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 20px 30px; border-radius: 15px; backdrop-filter: blur(10px);">
+                    <div style="font-size: 1.5em; font-weight: bold;">🌍 Localisation</div>
+                    <div style="color: rgba(255,255,255,0.9);">Dakar, Sénégal</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
